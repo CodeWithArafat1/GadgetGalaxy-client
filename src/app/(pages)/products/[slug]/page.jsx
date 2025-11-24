@@ -42,7 +42,7 @@ export default function ProductDetailsPage() {
     queryKey: ["singleProductView", slug],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/api/products/${slug}`
+        `https://gadget-galaxy-server-ten.vercel.app/api/products/${slug}`
       );
       return data;
     },

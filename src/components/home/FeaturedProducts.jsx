@@ -10,7 +10,7 @@ const FeaturedProducts = () => {
   const { data: latestProduct, isLoading } = useQuery({
     queryKey: ["latestProducts"],
     queryFn: async () => {
-      const { data } = await axios("http://localhost:5000/api/products/latest");
+      const { data } = await axios("https://gadget-galaxy-server-ten.vercel.app/api/products/latest");
       return data;
     },
   });

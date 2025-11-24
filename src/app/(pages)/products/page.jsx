@@ -13,7 +13,7 @@ export default function ProductsPage() {
   const { data: products, isLoading } = useQuery({
     queryKey: ["all-products"],
     queryFn: async () => {
-      const { data } = await axios.get("http://localhost:5000/api/products");
+      const { data } = await axios.get("https://gadget-galaxy-server-ten.vercel.app/api/products");
       return data;
     },
   });
