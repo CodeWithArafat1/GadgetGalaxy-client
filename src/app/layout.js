@@ -7,6 +7,7 @@ import NavMobile from "@/components/shared/NavMobile";
 import AuthProvider from "@/providers/AuthProvider";
 import AppContexts from "@/providers/AppContexts";
 import ThemeProvider from "@/providers/ThemeProvider";
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
                 <Navbar />
                 <NavMobile />
                 {children}
+                <Toaster />
                 <Footer />
               </AuthProvider>
             </AppContexts>

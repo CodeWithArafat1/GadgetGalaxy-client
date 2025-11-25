@@ -78,15 +78,19 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  <Link href="/profile" >
-                    <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+                  <Link href="/profile">
+                    <DropdownMenuItem className="cursor-pointer">
+                      Profile
+                    </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Link href="/dashboard">Dashboard</Link>
-                  </DropdownMenuItem>
+                  <Link href="/dashboard">
+                    <DropdownMenuItem className="cursor-pointer">
+                      Dashboard
+                    </DropdownMenuItem>
+                  </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
@@ -109,7 +113,10 @@ const Navbar = () => {
 
           {/* Mobile Menu Button (Icon Only) */}
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true);
+              toast.success("Log out successfully!");
+            }}
             className="md:hidden text-muted-foreground"
           >
             <Menu className="w-6 h-6" />
