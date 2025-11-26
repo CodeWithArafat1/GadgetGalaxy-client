@@ -1,59 +1,62 @@
-# 🚀 GadgetGalaxy - Premium Tech E-commerce Platform
+![GadgetGalaxy Banner](https://capsule-render.vercel.app/api?type=waving&color=0f172a&height=300&section=header&text=GadgetGalaxy&fontSize=80&animation=fadeIn&fontAlignY=35&desc=Next.js%2016%20%26%20Tailwind%20v4%20Powered%20E-commerce&descAlignY=55&descAlign=50)
 
-![GadgetGalaxy Banner](https://via.placeholder.com/1200x400.png?text=GadgetGalaxy+Preview)
-*(Replace this link with your actual project screenshot)*
+<div align="center">
 
-**GadgetGalaxy** is a full-stack e-commerce application designed for tech enthusiasts. It features a modern, responsive UI, secure authentication, product management dashboard, and a seamless shopping experience.
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.1-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Latest-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-Server-404D59?style=for-the-badge)](https://expressjs.com/)
 
-## 🔗 Live Demo
-- **Frontend:** [https://gadget-galaxy-client.vercel.app](https://gadget-galaxy-client.vercel.app)
-- **Backend:** [https://gadget-galaxy-server.onrender.com](https://gadget-galaxy-server.onrender.com) *(Example Link)*
+**A cutting-edge full-stack e-commerce application built with the latest web technologies.**
+<br />
+This project demonstrates high-performance rendering, secure authentication, and a sleek UI using **Next.js 16** and **Tailwind v4**.
 
----
-
-## ✨ Features
-
-### 🌟 User Features
-- **Authentication:** Secure login/signup using **NextAuth.js** (Google & Credentials).
-- **Product Browsing:** Filterable product list with search functionality.
-- **Product Details:** Dynamic product pages with image galleries and specifications.
-- **Shopping Cart:** Add to cart functionality with dynamic calculations.
-- **User Profile:** Personalized profile page displaying user info.
-- **Dark Mode:** Fully supported dark/light theme using `next-themes`.
-
-### 🛡️ Admin / Dashboard Features
-- **Protected Routes:** Middleware-protected dashboard for authorized users.
-- **Product Management:**
-  - **Add Product:** Create new listings with images and specs via a validated form.
-  - **Manage Products:** View, track, and delete products from a data table.
-- **Responsive Sidebar:** Mobile-friendly navigation with a collapsible drawer.
+[🎥 Live Demo (Frontend)](https://gadget-galaxy-client.vercel.app/) 
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Key Features
 
-### **Frontend (Client)**
-- **Framework:** [Next.js 15 (App Router)](https://nextjs.org/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **Components:** [Shadcn UI](https://ui.shadcn.com/) & [Lucide React](https://lucide.dev/)
-- **State Management:** [TanStack Query](https://tanstack.com/query/latest) (React Query)
-- **Authentication:** [NextAuth.js](https://next-auth.js.org/)
-- **Form Handling:** React Hook Form
-- **Charts:** Recharts
+### ⚡ Core Performance (Next.js 16)
+- **App Router:** Fully utilized nested layouts and loading states.
+- **Server Actions:** Optimized data mutations.
+- **Image Optimization:** Used `next/image` with `priority` loading for LCP < 0.6s.
+- **SEO:** 100% Lighthouse score with Dynamic Metadata & JSON-LD.
 
-### **Backend (Server)**
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB (Native Driver)
-- **Security:** Cors, Dotenv
+### 🎨 UI & UX (Tailwind v4 + Shadcn)
+- **Modern Styling:** Built with the new **Tailwind CSS v4.1** engine for lightning-fast builds.
+- **Components:** Modular UI using **Shadcn UI**.
+- **Themes:** Seamless **Dark/Light mode** transition using `next-themes`.
+- **Responsive:** Mobile-first design with Sidebar Drawer for smaller screens.
+
+### 🔐 Security & Data
+- **Authentication:** Secure Google & Credentials login via **NextAuth.js**.
+- **Route Protection:** Middleware-based protection for Dashboard & Profile.
+- **State Management:** **TanStack Query** for caching, auto-refetching, and optimistic updates.
 
 ---
 
-## ⚙️ Installation & Setup
+## 🛠️ Tech Stack Breakdown
+
+| Layer | Technology | Version |
+| :--- | :--- | :--- |
+| **Frontend** | Next.js (App Router) | **v16.0+** |
+| **Styling** | Tailwind CSS | **v4.1** |
+| **UI Library** | Shadcn UI | Latest |
+| **Icons** | Lucide React | Latest |
+| **Auth** | NextAuth.js | v5+ |
+| **Backend** | Express.js | v5+ |
+| **Database** | MongoDB | Native Driver |
+
+---
+
+## ⚙️ Installation Guide
 
 Follow these steps to run the project locally.
 
-### 1. Clone the Repository
+### 1. Clone Repository
 ```bash
-git clone [https://github.com/your-username/gadget-galaxy.git](https://github.com/your-username/gadget-galaxy.git)
+git clone git@github.com:CodeWithArafat1/GadgetGalaxy-client.git
 cd gadget-galaxy
+```
