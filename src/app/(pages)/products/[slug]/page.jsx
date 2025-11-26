@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 export default function ProductDetailsPage() {
   const { slug } = useParams();
@@ -31,13 +32,14 @@ export default function ProductDetailsPage() {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(null);
-
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
   }, [status, router]);
 
+  // get product details
   const { data: product, isLoading } = useQuery({
     queryKey: ["singleProductView", slug],
     queryFn: async () => {
@@ -45,6 +47,30 @@ export default function ProductDetailsPage() {
         `https://gadget-galaxy-server-ten.vercel.app/api/products/${slug}`
       );
       return data;
+    },
+  });
+
+  // post to add to cart products
+  const useCartMutation = useMutation({
+    mutationFn: async (prod) => {
+      const { data } = await axios.post(
+        `https://gadget-galaxy-server-ten.vercel.app/api/products/myCart`,
+        {
+          productId: prod._id,
+          name: prod.name,
+          price: prod.price,
+          image: prod.images[0],
+          quantity: parseInt(quantity),
+          email: session?.user?.email,
+        }
+      );
+
+      if (data.insertedId) {
+        toast.success("Cart added successfully!");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cartItems"]);
     },
   });
 
@@ -58,7 +84,7 @@ export default function ProductDetailsPage() {
     );
   }
 
-  // Active Image Logic
+  // Active Image
   const imageToShow = activeImage || product?.images?.[0];
 
   return (
@@ -219,38 +245,42 @@ export default function ProductDetailsPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                {/* Quantity Input */}
-                <div className="flex items-center justify-between border border-border rounded-full px-5 h-14 w-full sm:w-40 hover:border-gray-400 transition-colors bg-white">
+              <div className="flex flex-col md:flex-row gap-4">
+                {/* Add to Cart */}
+                <div className="flex p-3 justify-between items-center border border-border rounded-lg">
                   <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="text-gray-400 hover:text-black transition p-2"
+                    disabled={quantity === 1}
+                    onClick={() => setQuantity((prev) => prev - 1)}
+                    className="p-2 cursor-pointer  text-foreground disabled:text-muted-foreground disabled:cursor-not-allowed transition"
                   >
-                    <Minus className="w-5 h-5" />
+                    <Minus className="w-4 h-4" />
                   </button>
-                  <span className="font-bold text-lg w-4 text-center">
+                  <span className="w-8 text-center text-foreground font-medium text-sm">
                     {quantity}
                   </span>
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="text-gray-400 hover:text-black transition p-2"
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                    className="p-2 cursor-pointer  text-foreground transition"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
+                <div className="flex gap-2 flex-1">
+                  <Button
+                    onClick={() => useCartMutation.mutate(product)}
+                    className="flex-1 h-14 rounded-full text-lg font-bold gap-2 bg-primary   text-secondary transition-all shadow-sm cursor-pointer"
+                  >
+                    Add to Cart <ShoppingBag className="w-5 h-5" />
+                  </Button>
 
-                {/* Add to Cart */}
-                <Button className="flex-1 h-14 rounded-full text-lg font-bold gap-2 bg-primary   text-secondary transition-all shadow-sm cursor-pointer">
-                  Add to Cart <ShoppingBag className="w-5 h-5" />
-                </Button>
-
-                {/* Wishlist */}
-                <Button
-                  variant="outline"
-                  className="h-14 w-14 cursor-pointer rounded-full border-border hover:border-red-500 hover:text-red-500 hover:bg-red-50 transition-colors"
-                >
-                  <Heart className="w-6 h-6" />
-                </Button>
+                  {/* Wishlist */}
+                  <Button
+                    variant="outline"
+                    className="h-14 w-14  cursor-pointer rounded-full border-border hover:border-red-500 hover:text-red-500 hover:bg-red-50 transition-colors"
+                  >
+                    <Heart className="w-6 h-6" />
+                  </Button>
+                </div>
               </div>
             </div>
 

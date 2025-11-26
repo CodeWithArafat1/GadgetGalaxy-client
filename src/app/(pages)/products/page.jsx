@@ -89,12 +89,14 @@ export default function ProductsPage() {
             </>
           )}
         </div>
-        {products?.length === 0 && (
+        {filteredProducts?.length === 0 && (
           <div className="text-center py-20">
             <h2 className="text-xl font-semibold text-gray-500">
               No products found matching
             </h2>
-            <Button variant="link">Clear Search</Button>
+            <Button onClick={() => setSearch("")} variant="link">
+              Clear Search
+            </Button>
           </div>
         )}
       </main>

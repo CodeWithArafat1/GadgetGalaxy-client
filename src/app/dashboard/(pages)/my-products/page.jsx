@@ -30,7 +30,8 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 
 export default function MyProductsPage() {
   const { data: session } = useSession();

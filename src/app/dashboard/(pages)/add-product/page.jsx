@@ -16,8 +16,9 @@ import {
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 export default function AddProductForm() {
   const [loading, setLoading] = useState(false);

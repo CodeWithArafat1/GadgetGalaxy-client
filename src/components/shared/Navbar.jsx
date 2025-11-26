@@ -15,11 +15,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import ThemeToggle from "./ThemeToggle";
+import { toast } from "sonner";
+import useCart from "@/hook/useCart";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const { setIsOpen } = useAppContext();
   const user = session?.user;
+
+  const { cart } = useCart();
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -54,12 +58,15 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <ThemeToggle />
           {/* Cart Icon (Optional Design) */}
-          <button className="relative text-muted-foreground hover:text-primary transition">
+          <Link
+            href="/cart"
+            className="relative text-muted-foreground hover:text-primary transition"
+          >
             <ShoppingBag className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 bg-primary text-[10px] font-bold text-background w-4 h-4 flex items-center justify-center rounded-full">
-              0
+              {cart?.length}
             </span>
-          </button>
+          </Link>
 
           {user ? (
             <DropdownMenu>
@@ -96,7 +103,10 @@ const Navbar = () => {
                 <DropdownMenuGroup>
                   <DropdownMenuItem className="cursor-pointer ">
                     <Button
-                      onClick={() => signOut({ callbackUrl: "/" })}
+                      onClick={() => {
+                        signOut({ callbackUrl: "/" });
+                        toast.success("Log out successfully!");
+                      }}
                       className="w-full bg-red-500 hover:bg-red-600 text-white h-11 text-md"
                     >
                       <LogOut className="w-4 text-white h-4 mr-2" /> Logout
