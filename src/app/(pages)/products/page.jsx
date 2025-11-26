@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, SlidersHorizontal, Star } from "lucide-react";
@@ -10,13 +10,25 @@ import axios from "axios";
 import { SkeletonProductCard } from "@/components/shared/skeleton/SkeletonLoader";
 
 export default function ProductsPage() {
+  const [selectCategory, setSelectCategory] = useState("All");
+  const [search, setSearch] = useState("");
   const { data: products, isLoading } = useQuery({
     queryKey: ["all-products"],
     queryFn: async () => {
-      const { data } = await axios.get("https://gadget-galaxy-server-ten.vercel.app/api/products");
+      const { data } = await axios.get(
+        "https://gadget-galaxy-server-ten.vercel.app/api/products"
+      );
       return data;
     },
   });
+
+  const categories = ["All", ...new Set(products?.map((cat) => cat.category))];
+
+  const filteredProducts = products
+    ?.filter((prod) =>
+      selectCategory === "All" ? true : prod.category === selectCategory
+    )
+    ?.filter((prod) => prod.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -33,6 +45,10 @@ export default function ProductsPage() {
             <div className="relative w-full md:w-80">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
                 placeholder="Search gadgets..."
                 className="pl-10 bg-white"
               />
@@ -45,18 +61,17 @@ export default function ProductsPage() {
 
         {/* Optional: Category Tabs (Visual Only) */}
         <div className="flex gap-2 overflow-x-auto pb-6 mb-2 scrollbar-hide">
-          {["All", "Laptops", "Phones", "Audio", "Wearables", "Gaming"].map(
-            (cat) => (
-              <Button
-                key={cat}
-                variant={cat === "All" ? "default" : "outline"}
-                size="sm"
-                className="rounded-full"
-              >
-                {cat}
-              </Button>
-            )
-          )}
+          {categories?.map((cat) => (
+            <Button
+              key={cat}
+              variant={cat === selectCategory ? "default" : "outline"}
+              size="sm"
+              className="rounded-full"
+              onClick={() => setSelectCategory(cat)}
+            >
+              {cat}
+            </Button>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -68,7 +83,7 @@ export default function ProductsPage() {
             </>
           ) : (
             <>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <ProductCard key={product._id} prod={product} />
               ))}
             </>

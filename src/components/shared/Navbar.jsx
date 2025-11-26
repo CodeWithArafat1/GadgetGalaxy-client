@@ -97,7 +97,7 @@ const Navbar = () => {
                   <DropdownMenuItem className="cursor-pointer ">
                     <Button
                       onClick={() => signOut({ callbackUrl: "/" })}
-                      className="w-full bg-red-500 hover:bg-red-600 h-11 text-md"
+                      className="w-full bg-red-500 hover:bg-red-600 text-white h-11 text-md"
                     >
                       <LogOut className="w-4 text-white h-4 mr-2" /> Logout
                     </Button>
