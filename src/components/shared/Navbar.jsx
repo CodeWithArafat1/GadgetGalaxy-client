@@ -125,7 +125,6 @@ const Navbar = () => {
           <button
             onClick={() => {
               setIsOpen(true);
-              toast.success("Log out successfully!");
             }}
             className="md:hidden text-muted-foreground"
           >

@@ -10,13 +10,42 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
-import { Trash2, Minus, Plus, ArrowRight, ShoppingBag } from "lucide-react";
+import {
+  Trash2,
+  Minus,
+  Plus,
+  ArrowRight,
+  ShoppingBag,
+  MoreHorizontalIcon,
+  Eye,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
+import CartSkeleton from "@/components/shared/skeleton/CartSkeleton";
 
 export default function CartPage() {
   const { data: session, status } = useSession();
@@ -51,9 +80,10 @@ export default function CartPage() {
     },
   });
 
-  if (status === "loading" && isLoading) {
-    return <h1>loading...</h1>;
-  }
+  const subTotal = cartItems?.reduce((acc, curr) => {
+    return acc + curr.price * curr.quantity;
+  }, 0);
+
   return (
     <div className="min-h-screen bg-background py-10">
       <div className="container mx-auto px-4">
@@ -67,57 +97,70 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* --- LEFT SIDE: Cart Items List (Span 8) --- */}
           <div className="lg:col-span-8 space-y-4">
-            {cartItems?.map((item) => (
-              <Card
-                key={item._id}
-                className="flex flex-col sm:flex-row items-center p-4 gap-6 shadow-sm border-border"
-              >
-                {/* Image */}
-                <div className="relative w-32 h-32 shrink-0 bg-muted/30 rounded-xl overflow-hidden border border-border">
-                  <Image
-                    src={item.image}
-                    fill
-                    priority
-                    sizes="500px"
-                    className="object-cover p-2 mix-blend-multiply dark:mix-blend-normal"
-                    alt={item.name}
-                  />
-                </div>
+            <Table>
+              <TableCaption>A list of your recent carts.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Image</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              {isLoading  ? (
+                <TableBody>
+                  {[...Array(4)].map((_, i) => <CartSkeleton key={i} />)}
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {cartItems?.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell className="font-medium">
+                        <Image
+                          width={100}
+                          height={100}
+                          sizes="400px"
+                          alt={item.name}
+                          src={item.image}
+                          priority
+                          className="object-cover w-full"
+                        />
+                      </TableCell>
+                      <TableCell className="font-bold">{item.name}</TableCell>
+                      <TableCell>x{item.quantity}</TableCell>
+                      <TableCell>${item.price}</TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="default">
+                              <MoreHorizontalIcon />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-56" align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuGroup>
+                              <DropdownMenuItem
+                                onClick={() => deleteMutation.mutate(item._id)}
+                                className="cursor-pointer gap-2 text-red-600 focus:text-red-600"
+                              >
+                                <Trash2 className="w-4 h-4" /> Delete
+                              </DropdownMenuItem>
 
-                {/* Details */}
-                <div className="flex-1 text-center sm:text-left space-y-1">
-                  <h3 className="font-bold text-lg text-foreground">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {item.category} | Color: {item.color}
-                  </p>
-                  <p className="font-bold text-primary text-lg mt-2">
-                    ${item.price}
-                  </p>
-                </div>
-
-                {/* Quantity & Remove */}
-                <div className="flex flex-col items-center gap-4">
-                  <div className="flex items-center border border-border rounded-lg">
-                    <Button
-                      variant="outline"
-                      className=" text-center font-medium text-sm"
-                    >
-                      <strong>Qty:</strong> {item.quantity}
-                    </Button>
-                  </div>
-
-                  <Button
-                    variant="link"
-                    onClick={() => deleteMutation.mutate(item._id)}
-                    className="flex items-center text-red-500 text-sm cursor-pointer gap-1"
-                  >
-                    <Trash2 className="w-4 h-4" /> Remove
-                  </Button>
-                </div>
-              </Card>
-            ))}
+                              <Link href={`/products/${item.productId}`}>
+                                <DropdownMenuItem className="cursor-pointer gap-2">
+                                  <Eye className="w-4 h-4" /> View Details
+                                </DropdownMenuItem>
+                              </Link>
+                            </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )}
+            </Table>
 
             {/* Continue Shopping Link */}
             <div className="pt-4">
@@ -139,7 +182,9 @@ export default function CartPage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal</span>
-                  <span className="font-medium text-foreground">$00</span>
+                  <span className="font-medium text-foreground">
+                    ${subTotal}
+                  </span>
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Shipping Estimate</span>
@@ -156,7 +201,7 @@ export default function CartPage() {
 
                 <div className="flex justify-between text-lg font-bold text-foreground">
                   <span>Order Total</span>
-                  <span>$00</span>
+                  <span>${subTotal ? subTotal + shipping : 0}</span>
                 </div>
 
                 {/* Promo Code (Optional) */}
@@ -172,7 +217,7 @@ export default function CartPage() {
               </CardContent>
 
               <CardFooter>
-                <Button className="w-full h-12 text-lg font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-lg">
+                <Button className="w-full h-12 text-lg font-bold cursor-pointer shadow-lg">
                   Checkout <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </CardFooter>

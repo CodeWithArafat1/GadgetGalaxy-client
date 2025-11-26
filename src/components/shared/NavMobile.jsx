@@ -76,7 +76,7 @@ const NavMobile = () => {
               href="/login"
               className="cursor-pointer"
             >
-              <Button className='w-full cursor-pointer'>
+              <Button className="w-full cursor-pointer">
                 Login / Register
               </Button>
             </Link>
@@ -123,15 +123,16 @@ const NavMobile = () => {
               onClick={() => {
                 setIsOpen(false);
                 signOut({ callbackUrl: "/login" });
+                toast.success("Log out successfully!");
               }}
               variant="destructive"
-              className="w-full h-11 rounded-xl shadow-muted-foreground text-foreground shadow-sm"
+              className="w-full h-11 rounded-xl shadow-muted-foreground text-white shadow-sm"
             >
               <LogOut className="w-4 h-4 mr-2" /> Log Out
             </Button>
           ) : (
             <p className="text-center text-xs text-slate-400">
-              © {new Date().getFullYear()} GadgetGalaxy
+              &copy; {new Date().getFullYear()} GadgetGalaxy
             </p>
           )}
         </div>
