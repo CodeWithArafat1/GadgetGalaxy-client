@@ -1,4 +1,5 @@
-![GadgetGalaxy Banner](https://capsule-render.vercel.app/api?type=waving&color=0f172a&height=300&section=header&text=GadgetGalaxy&fontSize=80&animation=fadeIn&fontAlignY=35&desc=Next.js%2016%20%26%20Tailwind%20v4%20Powered%20E-commerce&descAlignY=55&descAlign=50)
+![GadgetGalaxy Banner](https://github.com/CodeWithArafat1/GadgetGalaxy-client/blob/5e0af6e9e3ac02c5405c560280c20c9aaff202c6/public/gadget-galaxy-client.vercel.app_dashboard.png)
+![GadgetGalaxy Banner](https://github.com/CodeWithArafat1/GadgetGalaxy-client/blob/5e0af6e9e3ac02c5405c560280c20c9aaff202c6/public/gadget-galaxy-client.vercel.app_dashboard%20(1).png)
 
 <div align="center">
 
