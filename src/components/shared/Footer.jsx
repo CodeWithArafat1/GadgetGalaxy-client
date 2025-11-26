@@ -1,13 +1,16 @@
-"use client"
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"; 
+"use client";
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
+import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
+import { GrLinkedin } from "react-icons/gr";
+
 
 const Footer = () => {
   const pathname = usePathname();
 
-  
   if (pathname.startsWith("/dashboard")) {
     return null;
   }
@@ -24,15 +27,16 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               {/* Social Icons (Placeholders) */}
-              <div className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
+              <Link href='https://www.facebook.com/ArafatNill69' target="_blank" className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
                 <Facebook size={18} />
-              </div>
-              <div className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
-                <Twitter size={18} />
-              </div>
-              <div className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
-                <Instagram size={18} />
-              </div>
+              </Link>
+              <Link href='https://x.com/ArafatNill37290' target="_blank" className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
+                <FaXTwitter size={18} />
+              </Link>
+              <Link href='https://www.linkedin.com/in/arafatnill/' target="_blank" className="p-2 hover:text-white rounded-full hover:bg-primary  transition cursor-pointer">
+               <GrLinkedin size={18} />
+
+              </Link>
             </div>
           </div>
 
